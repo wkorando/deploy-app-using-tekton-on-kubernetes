@@ -52,3 +52,16 @@ spec:
       inputs:
         - name: git-source
           resource: git-source
+---
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: catapp
+spec:
+  serviceAccountName: catapp
+  triggers:
+  - name: pullrequest-build-and-deploy
+    template:
+      name: catapp-build-and-deploy
+    bindings:
+    - name: catapp-build-and-deploy
