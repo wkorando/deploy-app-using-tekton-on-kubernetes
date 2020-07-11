@@ -86,7 +86,7 @@ spec:
 apiVersion: triggers.tekton.dev/v1alpha1
 kind: TriggerTemplate
 metadata:
-  name: sample-build-and-deploy
+  name: sampleapp-build-and-deploy
 spec:
   params:
   - name: URL
