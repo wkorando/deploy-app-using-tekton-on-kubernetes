@@ -33,7 +33,7 @@ spec:
     resources:
       inputs:
         - name: source
-          resource: source
+          resource: git
   - name: deploy-application
     taskRef:
       name: deploy-application
@@ -51,7 +51,7 @@ spec:
     resources:
       inputs:
         - name: source
-          resource: source
+          resource: git
 ---
 apiVersion: triggers.tekton.dev/v1beta1
 kind: EventListener
