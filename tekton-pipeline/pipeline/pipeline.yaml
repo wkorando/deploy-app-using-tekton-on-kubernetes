@@ -15,7 +15,7 @@ spec:
       default: config.yaml
     - name: imageUrl
       description: Url of image repository
-      default: deploy_target
+      default: us.icr.io/living-on-the-cloud/sampleapp
     - name: imageTag
       description: Tag to apply to the built image
       default: latest
@@ -25,11 +25,11 @@ spec:
       name: build-image-from-source
     params:
       - name: pathToContext
-        value: "$(params.PATH_TO_CONTEXT)"
+        value: "$(params.pathToContext)"
       - name: imageUrl
-        value: "$(params.IMAGE_URL)"
+        value: "$(params.imageUrl)"
       - name: imageTag
-        value: "$(params.IMAGE_TAG)"
+        value: "$(params.imageTag)"
     resources:
       inputs:
         - name: source
