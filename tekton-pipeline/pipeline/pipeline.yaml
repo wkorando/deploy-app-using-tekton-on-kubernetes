@@ -33,7 +33,7 @@ spec:
     resources:
       inputs:
         - name: source
-          resource: git
+          resource: source
   - name: deploy-application
     taskRef:
       name: deploy-application
@@ -51,7 +51,7 @@ spec:
     resources:
       inputs:
         - name: source
-          resource: git
+          resource: source
 ---
 apiVersion: triggers.tekton.dev/v1beta1
 kind: EventListener
@@ -126,8 +126,8 @@ kind: Task
 metadata:
   name: build-image-from-source
 spec:
-  inputs:
-    resources:
+  resources:
+    inputs:
       - name: source
         type: git
   params:
@@ -162,8 +162,8 @@ kind: Task
 metadata:
   name: deploy-application
 spec:
-  inputs:
-    resources:
+  resources:
+    inputs:
       - name: source
         type: git
   params:
