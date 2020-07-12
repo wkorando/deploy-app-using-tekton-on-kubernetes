@@ -25,11 +25,11 @@ spec:
       name: build-image-from-source
     params:
       - name: pathToContext
-        value: "$(params.pathToContext)"
+        value: "$(params.PATH_TO_CONTEXT)"
       - name: imageUrl
-        value: "$(params.imageUrl)"
+        value: "$(params.IMAGE_URL)"
       - name: imageTag
-        value: "$(params.imageTag)"
+        value: "$(params.IMAGE_TAG)"
     resources:
       inputs:
         - name: source
@@ -117,6 +117,12 @@ spec:
             value: $(params.REVISION)
           - name: url
             value: $(params.URL)
+      - name: image
+        resourceSpec:
+          type: image
+          params:
+          - name: url
+            value: us.icr.io/$(params.NAMESPACE)/sampleapp:$(params.REVISION)
       params:
       - name: DEPLOYMENT
         value: $(params.DEPLOYMENT)
