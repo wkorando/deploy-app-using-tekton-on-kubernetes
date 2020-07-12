@@ -4,7 +4,7 @@ metadata:
   name: application-pipeline
 spec:
   resources:
-    - name: git-source
+    - name: source
       type: git
   params:
     - name: pathToContext
@@ -32,8 +32,8 @@ spec:
         value: "$(params.imageTag)"
     resources:
       inputs:
-        - name: git-source
-          resource: git-source
+        - name: source
+          resource: source
   - name: deploy-application
     taskRef:
       name: deploy-application
@@ -50,8 +50,8 @@ spec:
         value: "$(params.imageTag)"
     resources:
       inputs:
-        - name: git-source
-          resource: git-source
+        - name: source
+          resource: source
 ---
 apiVersion: triggers.tekton.dev/v1alpha1
 kind: EventListener
@@ -134,7 +134,7 @@ metadata:
 spec:
   inputs:
     resources:
-      - name: git-source
+      - name: source
         type: git
     params:
       - name: pathToContext
@@ -153,7 +153,7 @@ spec:
       command:
         - "ls"
       args:
-        - "$(inputs.resources.git-source.path)"
+        - "$(inputs.resources.source.path)"
     - name: build-and-push
       image: gcr.io/kaniko-project/executor
       command:
@@ -161,7 +161,7 @@ spec:
       args:
         - "--dockerfile=$(inputs.params.pathToDockerfile)"
         - "--destination=$(inputs.params.imageUrl):$(inputs.params.imageTag)"
-        - "--context=$(inputs.resources.git-source.path)/$(inputs.params.pathToContext)/"
+        - "--context=$(inputs.resources.source.path)/$(inputs.params.pathToContext)/"
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
@@ -170,7 +170,7 @@ metadata:
 spec:
   inputs:
     resources:
-      - name: git-source
+      - name: source
         type: git
     params:
       - name: pathToContext
@@ -193,11 +193,11 @@ spec:
         - "-i"
         - "-e"
         - "s;IMAGE;$(inputs.params.imageUrl):$(inputs.params.imageTag);g"
-        - "$(inputs.resources.git-source.path)/$(inputs.params.pathToContext)/$(inputs.params.pathToYamlFile)"
+        - "$(inputs.resources.source.path)/$(inputs.params.pathToContext)/$(inputs.params.pathToYamlFile)"
     - name: deploy-app
       image: lachlanevenson/k8s-kubectl
       command: ["kubectl"]
       args:
         - "apply"
         - "-f"
-        - "$(inputs.resources.git-source.path)/$(inputs.params.pathToContext)/$(inputs.params.pathToYamlFile)"
+        - "$(inputs.resources.source.path)/$(inputs.params.pathToContext)/$(inputs.params.pathToYamlFile)"
