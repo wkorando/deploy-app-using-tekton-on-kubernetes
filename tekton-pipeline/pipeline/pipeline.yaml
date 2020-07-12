@@ -117,12 +117,6 @@ spec:
             value: $(params.REVISION)
           - name: url
             value: $(params.URL)
-      - name: image
-        resourceSpec:
-          type: image
-          params:
-          - name: url
-            value: us.icr.io/$(params.NAMESPACE)/sampleapp:$(params.REVISION)
       params:
       - name: DEPLOYMENT
         value: $(params.DEPLOYMENT)
