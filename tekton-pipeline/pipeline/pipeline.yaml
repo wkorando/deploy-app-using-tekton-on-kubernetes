@@ -1,4 +1,4 @@
-apiVersion: tekton.dev/v1alpha1
+apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
   name: application-pipeline
@@ -53,7 +53,7 @@ spec:
         - name: source
           resource: source
 ---
-apiVersion: triggers.tekton.dev/v1alpha1
+apiVersion: triggers.tekton.dev/v1beta1
 kind: EventListener
 metadata:
   name: sampleapp
@@ -66,7 +66,7 @@ spec:
     bindings:
     - name: sampleapp-build-and-deploy
 ---
-apiVersion: triggers.tekton.dev/v1alpha1
+apiVersion: triggers.tekton.dev/v1beta1
 kind: TriggerBinding
 metadata:
   name: sampleapp-build-and-deploy
@@ -83,7 +83,7 @@ spec:
   - name: SERVICE_ACCOUNT
     value: service-account
 ---
-apiVersion: triggers.tekton.dev/v1alpha1
+apiVersion: triggers.tekton.dev/v1beta1
 kind: TriggerTemplate
 metadata:
   name: sampleapp-build-and-deploy
@@ -121,7 +121,7 @@ spec:
       - name: DEPLOYMENT
         value: $(params.DEPLOYMENT)
 ---
-apiVersion: tekton.dev/v1alpha1
+apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   name: build-image-from-source
@@ -130,17 +130,17 @@ spec:
     resources:
       - name: source
         type: git
-    params:
-      - name: pathToContext
-        description: The path to the build context, used by Kaniko - within the workspace
-        default: .
-      - name: pathToDockerfile
-        description: The path to the dockerfile to build
-        default: Dockerfile
-      - name: imageUrl
-        description: value should be like - us.icr.io/test_namespace/builtImageApp
-      - name: imageTag
-        description: Tag to apply to the built image
+  params:
+    - name: pathToContext
+      description: The path to the build context, used by Kaniko - within the workspace
+      default: .
+    - name: pathToDockerfile
+      description: The path to the dockerfile to build
+      default: Dockerfile
+    - name: imageUrl
+      description: value should be like - us.icr.io/test_namespace/builtImageApp
+    - name: imageTag
+      description: Tag to apply to the built image
   steps:
     - name: list-src
       image: alpine
@@ -157,7 +157,7 @@ spec:
         - "--destination=$(inputs.params.imageUrl):$(inputs.params.imageTag)"
         - "--context=$(inputs.resources.source.path)/$(inputs.params.pathToContext)/"
 ---
-apiVersion: tekton.dev/v1alpha1
+apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   name: deploy-application
@@ -166,19 +166,19 @@ spec:
     resources:
       - name: source
         type: git
-    params:
-      - name: pathToContext
-        description: The path to the build context, used by Kaniko - within the workspace
-        default: .
-      - name: pathToYamlFile
-        description: The path to the yaml file to deploy within the git source
-        default: deploy.yaml
-      - name: imageUrl
-        description: Url of image repository
-        default: url
-      - name: imageTag
-        description: Tag of the images to be used.
-        default: "latest"
+  params:
+    - name: pathToContext
+      description: The path to the build context, used by Kaniko - within the workspace
+      default: .
+    - name: pathToYamlFile
+      description: The path to the yaml file to deploy within the git source
+      default: deploy.yaml
+    - name: imageUrl
+      description: Url of image repository
+      default: url
+    - name: imageTag
+      description: Tag of the images to be used.
+      default: "latest"
   steps:
     - name: update-yaml
       image: alpine
