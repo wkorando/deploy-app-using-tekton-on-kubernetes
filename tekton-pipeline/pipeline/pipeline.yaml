@@ -153,9 +153,9 @@ spec:
       command:
         - /kaniko/executor
       args:
-        - "--dockerfile=$(inputs.params.pathToDockerfile)"
-        - "--destination=$(inputs.params.imageUrl):$(inputs.params.imageTag)"
-        - "--context=$(inputs.resources.source.path)/$(inputs.params.pathToContext)/"
+        - "--dockerfile=$(params.pathToDockerfile)"
+        - "--destination=$(params.imageUrl):$(params.imageTag)"
+        - "--context=$(resources.inputs.source)/$(params.pathToContext)/"
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task
@@ -186,12 +186,12 @@ spec:
       args:
         - "-i"
         - "-e"
-        - "s;IMAGE;$(inputs.params.imageUrl):$(inputs.params.imageTag);g"
-        - "$(inputs.resources.source.path)/$(inputs.params.pathToContext)/$(inputs.params.pathToYamlFile)"
+        - "s;IMAGE;$(params.imageUrl):$(params.imageTag);g"
+        - "$(resources.inputs.source)/$(params.pathToContext)/$(params.pathToYamlFile)"
     - name: deploy-app
       image: lachlanevenson/k8s-kubectl
       command: ["kubectl"]
       args:
         - "apply"
         - "-f"
-        - "$(inputs.resources.source.path)/$(inputs.params.pathToContext)/$(inputs.params.pathToYamlFile)"
+        - "$(resources.inputs.source.path)/$(inputs.params.pathToContext)/$(params.pathToYamlFile)"
