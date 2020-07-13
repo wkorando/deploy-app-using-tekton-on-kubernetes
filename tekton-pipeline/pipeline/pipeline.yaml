@@ -133,7 +133,7 @@ spec:
   params:
     - name: pathToContext
       description: The path to the build context, used by Kaniko - within the workspace
-      default: .
+      default: /src/
     - name: pathToDockerfile
       description: The path to the dockerfile to build
       default: /src/Dockerfile
@@ -147,7 +147,7 @@ spec:
       command:
         - "ls"
       args:
-        - "$(inputs.resources.source.path)"
+        - "$(resources.inputs.source.path)"
     - name: build-and-push
       image: gcr.io/kaniko-project/executor
       command:
@@ -155,7 +155,7 @@ spec:
       args:
         - "--dockerfile=$(params.pathToDockerfile)"
         - "--destination=$(params.imageUrl):$(params.imageTag)"
-        - "--context=$(resources.inputs.source)/$(params.pathToContext)/"
+        - "--context=$(resources.inputs.source.path)/$(params.pathToContext)/"
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task
@@ -169,7 +169,7 @@ spec:
   params:
     - name: pathToContext
       description: The path to the build context, used by Kaniko - within the workspace
-      default: .
+      default: /src/
     - name: pathToYamlFile
       description: The path to the yaml file to deploy within the git source
       default: deploy.yaml
@@ -187,7 +187,7 @@ spec:
         - "-i"
         - "-e"
         - "s;IMAGE;$(params.imageUrl):$(params.imageTag);g"
-        - "$(resources.inputs.source)/$(params.pathToContext)/$(params.pathToYamlFile)"
+        - "$(resources.inputs.source.path)/$(params.pathToContext)/$(params.pathToYamlFile)"
     - name: deploy-app
       image: lachlanevenson/k8s-kubectl
       command: ["kubectl"]
