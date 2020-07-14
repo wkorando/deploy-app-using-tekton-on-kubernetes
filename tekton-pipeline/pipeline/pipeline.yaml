@@ -159,7 +159,7 @@ spec:
       command:
         - "ls"
       args:
-        - "$(resources.inputs.source.path)"
+        - "$(resources.inputs.source.path)/src"
     - name: build-and-push
       image: gcr.io/kaniko-project/executor
       command:
