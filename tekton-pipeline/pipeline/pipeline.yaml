@@ -99,6 +99,8 @@ spec:
     description: Name of the Deployment and the container name in the Deployment.
   - name: SERVICE_ACCOUNT
     description: The ServiceAccount under which to run the Pipeline.
+  - name: API-KEY
+    description: The API-KEY
   resourcetemplates:
   - apiVersion: tekton.dev/v1beta1
     kind: PipelineRun
