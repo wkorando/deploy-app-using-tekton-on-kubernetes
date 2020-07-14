@@ -122,6 +122,16 @@ spec:
       params:
       - name: DEPLOYMENT
         value: $(params.DEPLOYMENT)
+  - apiVersion: v1
+    stringData:
+      username: iamapikey
+      password: $(params.API-KEY)
+    kind: Secret
+    type: kubernetes.io/basic-auth
+    metadata:
+      name: ibm-cr-secret
+      annotations:
+        tekton.dev/docker-0: us.icr.io
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task
