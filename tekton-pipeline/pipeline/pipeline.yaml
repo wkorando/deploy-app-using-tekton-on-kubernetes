@@ -162,6 +162,7 @@ spec:
         - "--dockerfile=$(params.pathToDockerfile)"
         - "--destination=$(params.imageUrl):$(params.imageTag)"
         - "--context=${resources.inputs.source.path}"
+		- "--verbosity trace"
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task
