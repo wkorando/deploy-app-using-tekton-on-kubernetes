@@ -167,7 +167,7 @@ spec:
       args:
         - "--dockerfile=$(params.pathToDockerfile)"
         - "--destination=$(params.imageUrl):$(params.imageTag)"
-        - "--context=${resources.inputs.source.path}/${params.pathToContext}"
+        - "--context=${resources.inputs.source.path}/${params.pathToContext}/"
         - "--verbosity=trace"
 
 ---
