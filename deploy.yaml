@@ -1,36 +1,36 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: app
+  name: sampleapp
   labels:
-    app: app
+    sampleapp: sampleapp
 spec:
   type: NodePort
   ports:
     - port: 3300
-      name: app
+      name: sampleapp
       nodePort: 32426
   selector:
-    app: app
+    sampleapp: sampleapp
 ---
-apiVersion: apps/v1
+apiVersion: app/v1
 kind: Deployment
 metadata:
-  name: app
+  name: sampleapp
   labels:
-    app: app
+    sampleapp: sampleapp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app
+      sampleapp: sampleapp
   template:
     metadata:
       labels:
-        app: app
+        sampleapp: sampleapp
     spec:
       containers:
-      - name: app
+      - name: sampleapp
         image: IMAGE
         ports:
         - containerPort: 3300
