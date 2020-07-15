@@ -161,7 +161,7 @@ spec:
       args:
         - "--dockerfile=$(params.pathToDockerfile)"
         - "--destination=$(params.imageUrl):$(params.imageTag)"
-        - "--context=$(params.pathToContext)"
+        - "--context=${resources.inputs.source.path}"
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task
