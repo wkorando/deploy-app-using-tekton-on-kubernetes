@@ -214,4 +214,4 @@ spec:
           ibmcloud login -a $API -r us-south;
           export IKS_BETA_VERSION=1;
           ibmcloud ks cluster config -c "mycluster";
-		  kubectl apply -f $(resources.inputs.source.path)/$(inputs.params.pathToContext)/$(params.pathToYamlFile)
+		  kubectl apply -f $(resources.inputs.source.path)/$(inputs.params.pathToContext)/$(params.pathToYamlFile);
