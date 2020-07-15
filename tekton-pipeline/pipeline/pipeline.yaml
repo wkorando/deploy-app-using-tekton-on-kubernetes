@@ -201,10 +201,17 @@ spec:
         - "s;IMAGE;$(params.imageUrl):$(params.imageTag);g"
         - "$(resources.inputs.source.path)/$(params.pathToContext)/$(params.pathToYamlFile)"
     - name: deploy-app
-      image: lachlanevenson/k8s-kubectl
-      command: ["kubectl"]
+      image: ibmcom/pipeline-base-image
+      env:
+        - name: API
+          valueFrom:
+            secretKeyRef:
+              name: secure-properties
+              key: API-KEY
+      command: ["/bin/bash", "-c"]
       args:
-        - "apply"
-        - "-f"
-        - "$(resources.inputs.source.path)/$(inputs.params.pathToContext)/$(params.pathToYamlFile)"
-		
+        - set -e -o pipefail;
+          ibmcloud login -a $API -r us-south;
+          export IKS_BETA_VERSION=1;
+          ibmcloud ks cluster config -c "mycluster";
+		  kubectl apply -f $(resources.inputs.source.path)/$(inputs.params.pathToContext)/$(params.pathToYamlFile)
