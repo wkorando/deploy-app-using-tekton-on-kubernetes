@@ -181,7 +181,7 @@ spec:
   params:
     - name: pathToContext
       description: The path to the build context, used by Kaniko - within the workspace
-      default: /workspace/source/
+      default: .
     - name: pathToYamlFile
       description: The path to the yaml file to deploy within the git source
       default: deploy.yaml
@@ -214,4 +214,4 @@ spec:
           ibmcloud login -a $API -r us-south;
           export IKS_BETA_VERSION=1;
           ibmcloud ks cluster config -c "mycluster";
-		  kubectl apply -f $(resources.inputs.source.path)/$(inputs.params.pathToContext)/$(params.pathToYamlFile);
+          kubectl apply -f $(resources.inputs.source.path)/$(inputs.params.pathToContext)/$(params.pathToYamlFile);
