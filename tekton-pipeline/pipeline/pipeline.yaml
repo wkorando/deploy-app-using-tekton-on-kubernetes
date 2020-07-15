@@ -164,10 +164,6 @@ spec:
       image: gcr.io/kaniko-project/executor
       command:
         - /kaniko/executor
-    - name: build-and-push
-      image: gcr.io/kaniko-project/executor
-      command:
-        - /kaniko/executor
       args:
         - "--dockerfile=$(params.pathToDockerfile)"
         - "--destination=$(params.imageUrl):$(params.imageTag)"
