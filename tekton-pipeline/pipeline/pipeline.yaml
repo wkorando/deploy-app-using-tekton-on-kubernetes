@@ -12,7 +12,7 @@ spec:
       default: .
     - name: pathToYamlFile
       description: The path to the yaml file to deploy within the git source
-      default: config.yaml
+      default: deploy.yaml
     - name: imageUrl
       description: Url of image repository
       default: us.icr.io/living-on-the-cloud/sampleapp
@@ -168,8 +168,6 @@ spec:
         - "--dockerfile=$(params.pathToDockerfile)"
         - "--destination=$(params.imageUrl):$(params.imageTag)"
         - "--context=$(resources.inputs.source.path)/$(params.pathToContext)/"
-        - "--verbosity=trace"
-
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task
